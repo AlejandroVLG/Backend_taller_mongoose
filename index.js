@@ -9,4 +9,7 @@ mongoose.connect(config.db, (error, res) => {
     } else {
         console.log('Conexion a la base de datos establecida..')
     }
+    app.listen(config.port, () => {
+        console.log(`API REST corriendo en http://localhost:${config.port}`)
+    })
 })
