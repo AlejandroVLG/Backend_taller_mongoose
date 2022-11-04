@@ -1,0 +1,19 @@
+{
+  "name": "backend-mongoose-",
+  "version": "1.0.0",
+  "description": "Proyecto de práctica mongoose",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexdck/Backend_taller_mongoose.git"
+  },
+  "author": "Alejandro Laguía García",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexdck/Backend_taller_mongoose/issues"
+  },
+  "homepage": "https://github.com/Alexdck/Backend_taller_mongoose#readme"
+}
