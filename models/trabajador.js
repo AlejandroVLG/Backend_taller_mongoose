@@ -4,14 +4,14 @@ const Schema = mongoose.Schema
 const TrabajadorSchema = new Schema({
     nombre: String,
     apellidos: String,
-    dni: String,
-    email: String,
+    dni: { type: String, unique: true },
+    email: { type: String, unique: true, lowercase: true },
     edad: String,
     genero: String,
-    fechaContratacion: String,
-    tipoDeContrato: String,
+    fechaContratacion: Date,
+    tipoDeContrato: Date,
     cargoEnLaEmpresa: String,
-    cuentaBancaria: String
+    cuentaBancaria: { type: String, unique: true },
 })
 
 module.exports = mongoose.model('Trabajador', TrabajadorSchema)
