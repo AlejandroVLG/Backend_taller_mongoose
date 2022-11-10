@@ -57,7 +57,7 @@ function getEmployees(req, res) {
             if (employees.length == 0) {
                 return res.status(404).send({ message: `There is not any employee` })
             } else {
-                res.send(200, { employees })
+                res.status(200).send({ employees })
             }
         }
     })
@@ -68,8 +68,12 @@ function updateEmployee(req, res) {
     let update = req.body
 
     Employee.findByIdAndUpdate(employeeId, update, (err, employeeUpdated) => {
-        if (err) res.status(500).send({ message: `Error updating the employee data: ${err}` })
-        res.status(200).send({ employee: employeeUpdated })
+        if (err) {
+            res.status(500).send({ message: `Error updating the employee data: ${err}` })
+
+        } else {
+            res.status(200).send({ employee: employeeUpdated })
+        }
     })
 }
 
@@ -83,7 +87,7 @@ function deleteEmployee(req, res) {
         } else {
             employee.remove(err => {
                 if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
-                res.status(200).send({ message: `The ${employee.name} has been removed` })
+                res.status(200).send({ message: `${employee.name} has been removed` })
             })
         }
     })

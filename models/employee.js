@@ -10,12 +10,12 @@ const EmployeeSchema = new Schema({
     email: { type: String, unique: true, lowercase: true },
     password: { type: String, select: false },
     age: String,
-    genre: String,
+    genre: { type: String, enum: ['male', 'female',] },
     contractDate: Date,
     contractType: String,
     employment: String,
     phoneExtension: String,
-    accesLevel: { Type: String, enum: ['1', '2', '3', '4'] },
+    accesLevel: { type: String, enum: ['1', '2', '3', '4'] },
     bankAccount: { type: String, unique: true },
 })
 
