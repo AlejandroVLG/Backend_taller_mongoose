@@ -50,10 +50,16 @@ function signIn(req, res) {
 
 function getEmployees(req, res) {
     Employee.find({}, (err, employees) => {
-        if (err) res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
-        if (!employees) return res.status(404).send({ message: `There is not any employee` })
+        if (err) {
+            res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
 
-        res.send(200, { employees })
+        } else {
+            if (employees.length == 0) {
+                return res.status(404).send({ message: `There is not any employee` })
+            } else {
+                res.send(200, { employees })
+            }
+        }
     })
 }
 
@@ -61,12 +67,15 @@ function deleteEmployee(req, res) {
     let employeeId = req.params.employeeId
 
     Employee.findById(employeeId, (err, employee) => {
-        if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
 
-        Employee.remove(err => {
-            if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
-            res.status(200).send({ message: `The ${employee.name} has been removed` })
-        })
+        if (err) {
+            res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
+        } else {
+            Employee.remove(err => {
+                if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
+                res.status(200).send({ message: `The ${employee.name} has been removed` })
+            })
+        }
     })
 }
 
