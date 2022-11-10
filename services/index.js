@@ -2,9 +2,9 @@ const jwt = require('jwt-simple')
 const moment = require('moment')
 const config = require('../config')
 
-function createToken(trabajador) {
+function createToken(employees) {
     const payload = {
-        sub: trabajador._id,
+        sub: employees._id,
         iat: moment().unix(),
         exp: moment().add(14, 'days').unix(),
     }
@@ -22,7 +22,7 @@ function decodeToken(token) {
             if (payload.exp <= moment.unix()) {
                 reject({
                     status: 401,
-                    message: 'El token ha expirado'
+                    message: 'The token has expired'
                 })
             }
             resolve(payload.sub)
