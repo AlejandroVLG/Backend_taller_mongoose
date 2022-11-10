@@ -63,6 +63,16 @@ function getEmployees(req, res) {
     })
 }
 
+function updateEmployee(req, res) {
+    let employeeId = req.params.employeeId
+    let update = req.body
+
+    Employee.findByIdAndUpdate(employeeId, update, (err, employeeUpdated) => {
+        if (err) res.status(500).send({ message: `Error al actualizar el producto: ${err}` })
+        res.status(200).send({ product: employeeUpdated })
+    })
+}
+
 function deleteEmployee(req, res) {
     let employeeId = req.params.employeeId
 
@@ -83,5 +93,6 @@ module.exports = {
     signUp,
     signIn,
     getEmployees,
+    updateEmployee,
     deleteEmployee
 }

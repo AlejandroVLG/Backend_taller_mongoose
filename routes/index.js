@@ -10,6 +10,7 @@ api.get('/', (req, res) => {
 api.post('/newEmployee', employeeController.signUp)
 api.post('/login', employeeController.signIn)
 api.get('/employees', employeeController.getEmployees)
+api.put('/updateEmployee/:employeeId', employeeController.updateEmployee)
 api.delete('/removeEmployee/:employeeId', employeeController.deleteEmployee)
 
 module.exports = api
