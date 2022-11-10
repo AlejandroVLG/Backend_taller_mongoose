@@ -68,8 +68,8 @@ function updateEmployee(req, res) {
     let update = req.body
 
     Employee.findByIdAndUpdate(employeeId, update, (err, employeeUpdated) => {
-        if (err) res.status(500).send({ message: `Error al actualizar el producto: ${err}` })
-        res.status(200).send({ product: employeeUpdated })
+        if (err) res.status(500).send({ message: `Error updating the employee data: ${err}` })
+        res.status(200).send({ employee: employeeUpdated })
     })
 }
 
@@ -81,7 +81,7 @@ function deleteEmployee(req, res) {
         if (err) {
             res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
         } else {
-            Employee.remove(err => {
+            employee.remove(err => {
                 if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
                 res.status(200).send({ message: `The ${employee.name} has been removed` })
             })

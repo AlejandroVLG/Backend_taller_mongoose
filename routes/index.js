@@ -4,7 +4,7 @@ const employeeController = require('../controllers/employeeController')
 const auth = require('../middlewares/auth')
 
 api.get('/', (req, res) => {
-    res.send('Hola que tal soy colosal')
+    res.send('Bienvenido al taller de Alejandro')
 })
 
 api.post('/newEmployee', employeeController.signUp)
