@@ -15,9 +15,9 @@ api.put('/updateEmployee/:employeeId', employeeController.updateEmployee)
 api.delete('/removeEmployee/:employeeId', employeeController.deleteEmployee)
 
 api.get('/showReparations', reparationDataController.getReparations)
-api.get('/showOneReparation/:id', reparationDataController.getOneReparation)
+api.get('/showOneReparation/:reparationId', reparationDataController.getOneReparation)
 api.post('/newReparation', reparationDataController.newReparation)
-api.put('/updateReparation/:id', reparationDataController.updateReparation)
-api.delete('/deleteReparation/:id', reparationDataController.deleteReparation)
+api.put('/updateReparation/:reparationId', reparationDataController.updateReparation)
+api.delete('/deleteReparation/:reparationId', reparationDataController.deleteReparation)
 
 module.exports = api
