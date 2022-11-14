@@ -4,17 +4,19 @@ const Schema = mongoose.Schema
 const ReparationDataSchema = new Schema({
     name: String,
     surname: String,
-    dni: { type: String, unique: true, lowercase: false },
+    clientDni: String,
     phone: Number,
-    email: { type: String, unique: true, lowercase: true },
+    clientEmail: { type: String, unique: true, lowercase: true },
     address: String,
     inDate: { type: Date, default: Date.now() },
-    outDate: { type: Date, default: Date.now() },
+    outDate: Date,
     price: Number,
+    description: String,
     brand: String,
     model: String,
-    matriculationDate: Date,
-    reparationImage: URL,
+    matriculationDate: String,
+    reparationNumber: String,
+    reparationImage: String,
     insurance: String
 })
 

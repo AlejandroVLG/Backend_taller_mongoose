@@ -24,7 +24,7 @@ function signUp(req, res) {
         employee.save((err) => {
 
             if (err) {
-                res.status(500).send({ message: `There has been an error creating the new employees` })
+                res.status(500).send({ message: `There has been an error creating the new employee: ${err}` })
 
             } else (
                 res.status(200).send({
@@ -35,8 +35,8 @@ function signUp(req, res) {
         })
 
     } catch (error) {
-        res.status(500).send({ message: `There has been an error creating the new employees` })
-
+        res.status(500).send({ message: `There has been an error creating the new employee: ${error}` })
+        
     }
 }
 
