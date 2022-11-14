@@ -20,14 +20,24 @@ function signUp(req, res) {
         bankAccount: req.body.bankAccount,
     })
 
-    employee.save((err) => {
-        if (err) res.status(500).send({ message: `There has been an error creating the new employees: ${err}` })
+    try {
+        employee.save((err) => {
 
-        return res.status(200).send({
-            message: `The employees ${employee.dni}, has been created`,
-            token: service.createToken(employee)
+            if (err) {
+                res.status(500).send({ message: `There has been an error creating the new employees` })
+
+            } else (
+                res.status(200).send({
+                    message: `The employees ${employee.dni}, has been created`,
+                    token: service.createToken(employee)
+                })
+            )
         })
-    })
+
+    } catch (error) {
+        res.status(500).send({ message: `There has been an error creating the new employees` })
+
+    }
 }
 
 function signIn(req, res) {
