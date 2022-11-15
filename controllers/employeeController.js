@@ -36,7 +36,7 @@ function signUp(req, res) {
 
     } catch (error) {
         res.status(500).send({ message: `There has been an error creating the new employee: ${error}` })
-        
+
     }
 }
 
@@ -60,6 +60,21 @@ function signIn(req, res) {
 
 function getEmployees(req, res) {
     Employee.find({}, (err, employees) => {
+        if (err) {
+            res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
+
+        } else {
+            if (employees.length == 0) {
+                return res.status(404).send({ message: `There is not any employee` })
+            } else {
+                res.status(200).send({ employees })
+            }
+        }
+    })
+}
+
+function getEmployeesByAge(req, res) {
+    Employee.find({ age: { $gte: 45 } }, (err, employees) => { 
         if (err) {
             res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
 
@@ -108,5 +123,6 @@ module.exports = {
     signIn,
     getEmployees,
     updateEmployee,
-    deleteEmployee
+    deleteEmployee,
+    getEmployeesByAge
 }

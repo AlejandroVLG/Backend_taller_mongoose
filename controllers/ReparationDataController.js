@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { exists } = require('../models/employee')
 const ReparationData = require('../models/reparationData')
 
 const service = require('../services')
@@ -62,6 +63,26 @@ function getReparations(req, res) {
         }
     }
 }
+function getActiveReparations(req, res) {
+
+    try {
+        ReparationData.find({ outDate: { $exists: true } }, (err, reparations) => {
+            if (err) {
+
+                res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
+            } else {
+                res.status(200).send({ reparations })
+            }
+        })
+    } catch (error) {
+
+        if (ReparationData.length == 0) {
+            return res.status(404).send({ message: `There is not any reparation` })
+        } else {
+            res.status(500).send({ message: `There has been an error getting the reparation: ${error}` })
+        }
+    }
+}
 
 function getOneReparation(req, res) {
 
@@ -72,10 +93,10 @@ function getOneReparation(req, res) {
             if (err) {
 
                 res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
-            } else if(!reparations){
+            } else if (!reparations) {
 
                 res.status(404).send({ message: `The reparation does not exist` })
-            }else{
+            } else {
 
                 res.status(200).send({ reparations })
             }
@@ -93,7 +114,7 @@ function updateReparation(req, res) {
         ReparationData.findByIdAndUpdate(reparationId, update, (err, reparationUpdated) => {
             if (err) {
                 res.status(500).send({ message: `Error updating the reparation: ${err}` })
-    
+
             } else {
                 res.status(200).send({ reparation: reparationUpdated })
             }
@@ -124,5 +145,6 @@ module.exports = {
     getReparations,
     getOneReparation,
     updateReparation,
-    deleteReparation
+    deleteReparation,
+    getActiveReparations
 }

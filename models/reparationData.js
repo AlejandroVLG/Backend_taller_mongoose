@@ -16,7 +16,7 @@ const ReparationDataSchema = new Schema({
     model: String,
     matriculationDate: String,
     reparationNumber: String,
-    reparationImage: String,
+    reparationImage: Buffer,
     insurance: String
 })
 

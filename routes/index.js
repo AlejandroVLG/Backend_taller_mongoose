@@ -9,6 +9,7 @@ api.get('/', (req, res) => {
 })
 
 api.get('/employees', employeeController.getEmployees)
+api.get('/employeesByAge', employeeController.getEmployeesByAge)
 api.post('/newEmployee', employeeController.signUp)
 api.post('/login', employeeController.signIn)
 api.put('/updateEmployee/:employeeId', employeeController.updateEmployee)
@@ -16,6 +17,7 @@ api.delete('/removeEmployee/:employeeId', employeeController.deleteEmployee)
 
 api.get('/showReparations', reparationDataController.getReparations)
 api.get('/showOneReparation/:reparationId', reparationDataController.getOneReparation)
+api.get('/showActiveReparations', reparationDataController.getActiveReparations)
 api.post('/newReparation', reparationDataController.newReparation)
 api.put('/updateReparation/:reparationId', reparationDataController.updateReparation)
 api.delete('/deleteReparation/:reparationId', reparationDataController.deleteReparation)
