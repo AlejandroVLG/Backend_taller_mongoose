@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const autoincrement = require('simple-mongoose-autoincrement')
 
 const ReparationDataSchema = new Schema({
     name: String,
@@ -15,9 +16,10 @@ const ReparationDataSchema = new Schema({
     brand: String,
     model: String,
     matriculationDate: String,
-    reparationNumber: String,
-    reparationImage: Buffer,
+    reparationNumber: Number,
+    reparationImage: String,
     insurance: String
 })
+ReparationDataSchema.plugin(autoincrement, { field: 'reparationNumber' })
 
 module.exports = mongoose.model('ReparationData', ReparationDataSchema)

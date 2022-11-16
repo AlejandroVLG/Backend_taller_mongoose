@@ -41,21 +41,34 @@ function signUp(req, res) {
 }
 
 function signIn(req, res) {
-    Employee.find(
-        {
-            dni: req.body.dni,
-            password: req.body.password
-        },
-        (err, employee) => {
-            if (err) return res.status(500).send({ message: err })
-            if (!employee) return res.status(404).send({ message: 'The emplooyees does not exist' })
 
-            req.employee = employee
-            res.status(200).send({
-                message: 'You have been logged succesfully',
-                token: service.createToken(employee)
+    try {
+        Employee.find(
+            {
+                dni: req.body.dni,
+                password: req.body.password
+            },
+            ((err, employee) => {
+
+                if (err) {
+                    res.status(500).send({ message: err })
+
+                } else if (!employee) {
+                    res.status(404).send({ message: 'The emplooyee does not exist' })
+
+                } else {
+                    req.employee = employee
+                    res.status(200).send({
+                        message: 'You have been logged succesfully',
+                        token: service.createToken(employee)
+                    })
+                }
             })
-        })
+        )
+
+    } catch (error) {
+        res.status(500).send({ message: error })
+    }
 }
 
 function getEmployees(req, res) {
@@ -74,7 +87,7 @@ function getEmployees(req, res) {
 }
 
 function getEmployeesByAge(req, res) {
-    Employee.find({ age: { $gte: 45 } }, (err, employees) => { 
+    Employee.find({ age: { $gte: 45 } }, (err, employees) => {
         if (err) {
             res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
 

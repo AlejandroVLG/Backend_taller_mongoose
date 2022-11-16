@@ -15,7 +15,7 @@ const EmployeeSchema = new Schema({
     contractType: String,
     employment: String,
     phoneExtension: String,
-    employeeImage: Buffer,
+    employeeImage: String,
     accesLevel: { type: String, enum: ['1', '2', '3', '4'] },
     bankAccount: { type: String, unique: true },
 })
