@@ -88,7 +88,7 @@ function getOneReparation(req, res) {
         })
     } catch (error) {
 
-        res.status(500).send({ message: `There has been an error getting the reparation: ${error}` })
+        return res.status(500).send({ message: `There has been an error getting the reparation: ${error}` })
     }
 }
 
