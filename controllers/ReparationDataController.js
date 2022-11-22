@@ -123,7 +123,6 @@ function deleteReparation(req, res) {
                 if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
                 res.status(200).send({ message: `${reparationId} has been removed` })
             })
-
         })
     } catch (error) {
 
