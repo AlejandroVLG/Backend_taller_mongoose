@@ -4,6 +4,7 @@ const Employee = require('../models/employee')
 const service = require('../services')
 
 function signUp(req, res) {
+
     const employee = new Employee({
         employeeName: req.body.name,
         employeeSurname: req.body.surname,
@@ -25,18 +26,16 @@ function signUp(req, res) {
     try {
         employee.save((err) => {
 
-            if (err) res.status(500).send({ message: `There has been an error creating the new employee: ${err}` })
+            if (err) return res.status(500).send({ message: `There has been an error creating the new employee: ${err}` })
 
-            res.status(200).send({
+            return res.status(200).send({
                 message: `The employees ${employee.employeeName}, has been created`,
                 token: service.createToken(employee)
             })
-
         })
-
     } catch (error) {
-        res.status(500).send({ message: `There has been an error creating the new employee: ${error}` })
 
+        return res.status(500).send({ message: `There has been an error creating the new employee: ${error}` })
     }
 }
 
@@ -50,87 +49,99 @@ function signIn(req, res) {
             },
             ((err, employee) => {
 
-                if (err) {
-                    res.status(500).send({ message: err })
+                if (err) return res.status(500).send({ message: err })
 
-                } else if (!employee) {
-                    res.status(404).send({ message: 'The emplooyee does not exist' })
+                if (!employee) return res.status(404).send({ message: 'The emplooyee does not exist' })
 
-                } else {
-                    req.employee = employee
-                    res.status(200).send({
-                        message: 'You have been logged succesfully',
-                        token: service.createToken(employee)
-                    })
-                }
+                req.employee = employee
+                res.status(200).send({
+                    message: 'You have been logged succesfully',
+                    token: service.createToken(employee)
+                })
             })
         )
-
     } catch (error) {
-        res.status(500).send({ message: error })
+
+        return res.status(500).send({ message: error })
     }
 }
 
 function getEmployees(req, res) {
-    Employee.find({}, (err, employees) => {
-        if (err) {
-            res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
 
-        } else {
-            if (employees.length == 0) {
-                return res.status(404).send({ message: `There is not any employee` })
-            } else {
-                res.status(200).send({ employees })
-            }
-        }
-    }).populate(
-        { path: 'reparations', model: 'ReparationData' }
-    )
+    try {
+        Employee.find({}, (err, employees) => {
+
+            if (err) return res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
+
+            if (employees.length == 0) return res.status(404).send({ message: `There is not any employee` })
+
+            return res.status(200).send({ employees })
+
+        }).populate(
+            { path: 'reparations', model: 'ReparationData' }
+        )
+    } catch (error) {
+
+        return res.status(500).send({ message: `There has been an error getting the employees: ${error}` })
+    }
 }
 
 function getEmployeesByAge(req, res) {
-    Employee.find({ age: { $gte: 45 } }, (err, employees) => {
-        if (err) {
-            res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
 
-        } else {
-            if (employees.length == 0) {
-                return res.status(404).send({ message: `There is not any employee` })
-            } else {
-                res.status(200).send({ employees })
-            }
-        }
-    })
+    try {
+        Employee.find({ age: { $gte: 45 } }, (err, employees) => {
+
+            if (err) return res.status(500).send({ message: `There has been an error getting the employees: ${err}` })
+
+            if (employees.length == 0) return res.status(404).send({ message: `There is not any employee` })
+
+            return res.status(200).send({ employees })
+        })
+    } catch (error) {
+
+        return res.status(500).send({ message: `There has been an error getting the employees: ${error}` })
+    }
 }
 
 function updateEmployee(req, res) {
+
     let employeeId = req.params.employeeId
     let update = req.body
 
-    Employee.findByIdAndUpdate(employeeId, update, (err, employeeUpdated) => {
-        if (err) {
-            res.status(500).send({ message: `Error updating the employee data: ${err}` })
+    try {
+        Employee.findByIdAndUpdate(employeeId, update, (err, employeeUpdated) => {
 
-        } else {
-            res.status(200).send({ employee: employeeUpdated })
-        }
-    })
+            if (err) return res.status(500).send({ message: `Error updating the employee data: ${err}` })
+
+            return res.status(200).send({ employee: employeeUpdated })
+        })
+    } catch (error) {
+
+        return res.status(500).send({ message: `Error updating the employee data: ${error}` })
+    }
 }
 
 function deleteEmployee(req, res) {
+
     let employeeId = req.params.employeeId
 
-    Employee.findById(employeeId, (err, employee) => {
+    try {
+        Employee.findById(employeeId, (err, employee) => {
 
-        if (err) {
-            res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
-        } else {
+            if (err) return res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
+
             employee.remove(err => {
-                if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
-                res.status(200).send({ message: `${employee.name} has been removed` })
+                if (err) return res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
+
+                return res.status(200).send({ message: `${employee.name} has been removed` })
             })
-        }
-    })
+        })
+    } catch (error) {
+        
+        return res.status(500).send({ message: `There has been an error removing the employee: ${error}` })
+    }
+
+
 }
 
 module.exports = {

@@ -26,22 +26,16 @@ function newReparation(req, res) {
     })
 
     try {
-
         reparationData.save((err) => {
 
-            if (err) {
-                res.status(500).send({ message: `There has been an error creating the new reparation: ${err}` })
+            if (err) return res.status(500).send({ message: `There has been an error creating the new reparation: ${err}` })
 
-            } else (
-                res.status(200).send({
-                    message: `The reparation ${reparationData.name}, has been created`,
-                })
-            )
+            return res.status(200).send({
+                message: `The reparation ${reparationData.name}, has been created`,
+            })
         })
-
     } catch (error) {
-        res.status(500).send({ message: `There has been an error creating the new reparation: ${error}` })
-
+        return res.status(500).send({ message: `There has been an error creating the new reparation: ${error}` })
     }
 }
 
