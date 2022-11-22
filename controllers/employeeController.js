@@ -30,7 +30,7 @@ function signUp(req, res) {
 
             } else (
                 res.status(200).send({
-                    message: `The employees ${employee.dni}, has been created`,
+                    message: `The employees ${employee.employeeName}, has been created`,
                     token: service.createToken(employee)
                 })
             )
