@@ -1,8 +1,5 @@
 const mongoose = require('mongoose')
-const employee = require('../models/employee')
-const { exists } = require('../models/employee')
 const ReparationData = require('../models/reparationData')
-const service = require('../services')
 
 function newReparation(req, res) {
 
@@ -35,6 +32,7 @@ function newReparation(req, res) {
             })
         })
     } catch (error) {
+
         return res.status(500).send({ message: `There has been an error creating the new reparation: ${error}` })
     }
 }
@@ -43,40 +41,35 @@ function getReparations(req, res) {
 
     try {
         ReparationData.find((err, reparations) => {
-            if (err) {
 
-                res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
-            } else {
-                res.status(200).send({ reparations })
-            }
+            if (err) return res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
+
+            return res.status(200).send({ reparations })
+
         }).sort({ inDate: -1 })
+
     } catch (error) {
 
-        if (ReparationData.length == 0) {
-            return res.status(404).send({ message: `There is not any reparation` })
-        } else {
-            res.status(500).send({ message: `There has been an error getting the reparation: ${error}` })
-        }
+        if (ReparationData.length == 0) return res.status(404).send({ message: `There is not any reparation` })
+
+        return res.status(500).send({ message: `There has been an error getting the reparations: ${error}` })
     }
 }
 function getActiveReparations(req, res) {
 
     try {
-        ReparationData.find({ outDate: { $exists: true } }, (err, reparations) => {
-            if (err) {
 
-                res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
-            } else {
-                res.status(200).send({ reparations })
-            }
+        ReparationData.find({ outDate: { $exists: true } }, (err, reparations) => {
+
+            if (err) return res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
+
+            return res.status(200).send({ reparations })
         })
     } catch (error) {
 
-        if (ReparationData.length == 0) {
-            return res.status(404).send({ message: `There is not any reparation` })
-        } else {
-            res.status(500).send({ message: `There has been an error getting the reparation: ${error}` })
-        }
+        if (ReparationData.length == 0) return res.status(404).send({ message: `There is not any reparation` })
+
+        return res.status(500).send({ message: `There has been an error getting the reparation: ${error}` })
     }
 }
 
@@ -86,54 +79,56 @@ function getOneReparation(req, res) {
 
     try {
         ReparationData.findById(reparationId, (err, reparations) => {
-            if (err) {
 
-                res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
-            } else if (!reparations) {
+            if (err) return res.status(500).send({ message: `There has been an error getting the reparation: ${err}` })
 
-                res.status(404).send({ message: `The reparation does not exist` })
-            } else {
+            if (!reparations) return res.status(404).send({ message: `The reparation does not exist` })
 
-                res.status(200).send({ reparations })
-            }
+            return res.status(200).send({ reparations })
         })
     } catch (error) {
+
         res.status(500).send({ message: `There has been an error getting the reparation: ${error}` })
     }
 }
 
 function updateReparation(req, res) {
+
     let reparationId = req.params.reparationId
     let update = req.body
 
     try {
         ReparationData.findByIdAndUpdate(reparationId, update, (err, reparationUpdated) => {
-            if (err) {
-                res.status(500).send({ message: `Error updating the reparation: ${err}` })
 
-            } else {
-                res.status(200).send({ reparation: reparationUpdated })
-            }
+            if (err) return res.status(500).send({ message: `Error updating the reparation: ${err}` })
+
+            return res.status(200).send({ reparation: reparationUpdated })
         })
     } catch (error) {
+
         res.status(500).send({ message: `Error updating the reparation: ${error}` })
     }
 }
 
 function deleteReparation(req, res) {
+
     let reparationId = req.params.reparationId
 
-    ReparationData.findById(reparationId, (err, reparation) => {
+    try {
+        ReparationData.findById(reparationId, (err, reparation) => {
 
-        if (err) {
-            res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
-        } else {
-            reparation.remove(err => {
+            if (err) return res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
+
+            return reparation.remove(err => {
                 if (err) res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
                 res.status(200).send({ message: `${reparationId} has been removed` })
             })
-        }
-    })
+
+        })
+    } catch (error) {
+
+        return res.status(500).send({ message: `There has been an error removing the employee: ${err}` })
+    }
 }
 
 module.exports = {

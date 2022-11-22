@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const Employee = require('../models/employee')
-
 const service = require('../services')
 
 function signUp(req, res) {
@@ -137,7 +136,7 @@ function deleteEmployee(req, res) {
             })
         })
     } catch (error) {
-        
+
         return res.status(500).send({ message: `There has been an error removing the employee: ${error}` })
     }
 
