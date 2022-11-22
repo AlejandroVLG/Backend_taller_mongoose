@@ -106,7 +106,7 @@ function updateReparation(req, res) {
         })
     } catch (error) {
 
-        res.status(500).send({ message: `Error updating the reparation: ${error}` })
+        return res.status(500).send({ message: `Error updating the reparation: ${error}` })
     }
 }
 
