@@ -25,15 +25,13 @@ function signUp(req, res) {
     try {
         employee.save((err) => {
 
-            if (err) {
-                res.status(500).send({ message: `There has been an error creating the new employee: ${err}` })
+            if (err) res.status(500).send({ message: `There has been an error creating the new employee: ${err}` })
 
-            } else (
-                res.status(200).send({
-                    message: `The employees ${employee.employeeName}, has been created`,
-                    token: service.createToken(employee)
-                })
-            )
+            res.status(200).send({
+                message: `The employees ${employee.employeeName}, has been created`,
+                token: service.createToken(employee)
+            })
+
         })
 
     } catch (error) {
