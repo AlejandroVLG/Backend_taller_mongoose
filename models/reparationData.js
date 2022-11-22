@@ -7,7 +7,7 @@ const ReparationDataSchema = new Schema({
     surname: String,
     clientDni: String,
     phone: Number,
-    clientEmail: { type: String, unique: true, lowercase: true },
+    clientEmail: { type: String, lowercase: true },
     address: String,
     inDate: { type: Date, default: Date.now() },
     outDate: Date,

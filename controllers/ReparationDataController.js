@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
+const employee = require('../models/employee')
 const { exists } = require('../models/employee')
 const ReparationData = require('../models/reparationData')
-
 const service = require('../services')
 
 function newReparation(req, res) {
+
     const reparationData = new ReparationData({
         name: req.body.name,
         surname: req.body.surname,
@@ -54,7 +55,7 @@ function getReparations(req, res) {
             } else {
                 res.status(200).send({ reparations })
             }
-        })
+        }).sort({ inDate: -1 })
     } catch (error) {
 
         if (ReparationData.length == 0) {

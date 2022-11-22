@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt-nodejs')
 const crypto = require('crypto')
 
 const EmployeeSchema = new Schema({
-    name: String,
-    surname: String,
+    employeeName: String,
+    employeeSurname: String,
     dni: { type: String, unique: true },
     email: { type: String, unique: true, lowercase: true },
     password: { type: String, select: false },
@@ -18,6 +18,12 @@ const EmployeeSchema = new Schema({
     employeeImage: String,
     accesLevel: { type: String, enum: ['1', '2', '3', '4'] },
     bankAccount: { type: String, unique: true },
+    reparations: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'ReparationData'
+        },
+    ]
 })
 
 EmployeeSchema.pre('save', (next) => {

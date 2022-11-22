@@ -5,8 +5,8 @@ const service = require('../services')
 
 function signUp(req, res) {
     const employee = new Employee({
-        name: req.body.name,
-        surname: req.body.surname,
+        employeeName: req.body.name,
+        employeeSurname: req.body.surname,
         dni: req.body.dni,
         email: req.body.email,
         password: req.body.password,
@@ -16,8 +16,10 @@ function signUp(req, res) {
         contractType: req.body.contractType,
         employment: req.body.employment,
         phoneExtension: req.body.phoneExtension,
+        employeeImage: req.body.employeeImage,
         accesLevel: req.body.accesLevel,
         bankAccount: req.body.bankAccount,
+        reparations: req.body.reparations
     })
 
     try {
@@ -83,7 +85,9 @@ function getEmployees(req, res) {
                 res.status(200).send({ employees })
             }
         }
-    })
+    }).populate(
+        { path: 'reparations', model: 'ReparationData' }
+    )
 }
 
 function getEmployeesByAge(req, res) {
