@@ -22,7 +22,7 @@ const EmployeeSchema = new Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'ReparationData'
-        },
+        }
     ]
 })
 

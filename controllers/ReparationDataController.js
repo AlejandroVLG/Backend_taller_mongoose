@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
+const Employee = require('../models/employee')
 const ReparationData = require('../models/reparationData')
+
 
 function newReparation(req, res) {
 
@@ -20,15 +22,25 @@ function newReparation(req, res) {
         reparationNumber: req.body.reparationNumber,
         reparationImage: req.body.reparationImage,
         insurance: req.body.insurance,
+        employee: req.body.employee
     })
 
     try {
+        let employeeId = reparationData.employee
+        let update = { reparations: [reparationData._id] }
+
         reparationData.save((err) => {
 
             if (err) return res.status(500).send({ message: `There has been an error creating the new reparation: ${err}` })
 
-            return res.status(200).send({
-                message: `The reparation ${reparationData.name}, has been created`,
+            Employee.findByIdAndUpdate(employeeId, update, (err, employeeUpdated) => {
+
+                if (err) return res.status(500).send({ message: `Error updating the reparation: ${err}` })
+
+                return res.status(200).send({
+                    message: `The reparation ${reparationData.name}, has been created`,
+                    employee: employeeUpdated
+                })
             })
         })
     } catch (error) {
@@ -46,8 +58,13 @@ function getReparations(req, res) {
 
             return res.status(200).send({ reparations })
 
-        }).sort({ inDate: -1 })
-
+        }).sort({ inDate: -1 }).populate(
+            {
+                path: 'employee',
+                model: 'Employee',
+                select: 'employeeName employeeSurname employment phoneExtension employeeImage'
+            }
+        )
     } catch (error) {
 
         if (ReparationData.length == 0) return res.status(404).send({ message: `There is not any reparation` })
@@ -55,6 +72,7 @@ function getReparations(req, res) {
         return res.status(500).send({ message: `There has been an error getting the reparations: ${error}` })
     }
 }
+
 function getActiveReparations(req, res) {
 
     try {
@@ -102,7 +120,7 @@ function updateReparation(req, res) {
 
             if (err) return res.status(500).send({ message: `Error updating the reparation: ${err}` })
 
-            return res.status(200).send({ reparation: reparationUpdated })
+            return res.status(200).send({ reparations: reparationUpdated })
         })
     } catch (error) {
 

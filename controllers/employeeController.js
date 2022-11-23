@@ -5,8 +5,8 @@ const service = require('../services')
 function signUp(req, res) {
 
     const employee = new Employee({
-        employeeName: req.body.name,
-        employeeSurname: req.body.surname,
+        employeeName: req.body.employeeName,
+        employeeSurname: req.body.employeeSurname,
         dni: req.body.dni,
         email: req.body.email,
         password: req.body.password,

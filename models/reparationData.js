@@ -18,7 +18,12 @@ const ReparationDataSchema = new Schema({
     matriculationDate: String,
     reparationNumber: Number,
     reparationImage: String,
-    insurance: String
+    insurance: String,
+    employee:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Employee'
+    }
 })
 ReparationDataSchema.plugin(autoincrement, { field: 'reparationNumber' })
 
