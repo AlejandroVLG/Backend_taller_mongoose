@@ -62,7 +62,7 @@ function getReparations(req, res) {
             {
                 path: 'employee',
                 model: 'Employee',
-                select: 'employeeName employeeSurname employment phoneExtension employeeImage'
+                select: '-_id employeeName employeeSurname employment phoneExtension employeeImage'
             }
         )
     } catch (error) {
